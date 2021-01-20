@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Show and hide using JavaScript</title>
+<style>
+.main_div {
+    text-align:center;
+    background: #00C492;
+    padding:20px;
+    width: 400px;
+}
+.inner_div {
+    background: #fff;
+    margin-top:20px;
+    height: 100px;
+}
+.buttons a {
+    font-size: 16px;
+}
+.buttons a.active,.buttons a.focus{background:#fff} 
+.buttons a:hover {
+    cursor:pointer;
+    font-size: 16px;
+}
+.tabcontent{display:none}
+.tabcontent.active{display:block}
+</style>
+<script>
+
+</script>
+</head>
+<body>
+<div class="main_div">
+        <div id="tabs" class="buttons"> <a class="tabs active" href="#Menu1">Menu1</a> | <a class="tabs" href="#Menu2">Menu2</a> | <a class="tabs" href="#Menu3">Menu3</a> | <a class="tabs" href="#Menu4">Menu4</a> </div>
+        <div id="tabcontent" class="inner_div">
+                <div class="tabcontent active" id="Menu1">I'm container one</div>
+                <div class="tabcontent" id="Menu2">I'm container two</div>
+                <div class="tabcontent" id="Menu3">I'm container three</div>
+                <div class="tabcontent" id="Menu4">I'm container four</div>
+        </div>
+</div>
+<!-- keep script at end of html -->
+<script>
+(function() {
+        "use strict";
+        var className = "active";
+        var tabcontent = ".tabcontent";
+        var tabs = ".tabs";
+
+        function init() {
+            if (document.getElementById && document.createTextNode) {
+                var tabtrigger = document.getElementById('tabs').getElementsByTagName('a');
+                for (var i = 0; i < tabtrigger.length; i++) {
+                    addClicks(tabtrigger, i);
+                }
+            }
+        }
+
+        function addClicks(tabtrigger, i) {
+            tabtrigger[i].onclick = function() {
+                show(tabtrigger[i]);
+                return false;
+            };
+        }
+
+        function show(l) {
+            hideTabs(tabcontent);
+            hideTabs(tabs);
+            var id = l.href.match(/#(\w.+)/)[1];
+            var el = document.getElementById(id);
+            addClassname(el, className);
+            addClassname(l, className);
+        }
+
+        function hideTabs(tabcontent) {
+            var tabContent = document.querySelectorAll(tabcontent);
+            for (var i = 0; i < tabContent.length; i++) {
+                removeClassname(tabContent[i], className);
+            }
+        }
+
+        function addClassname(el, className) {
+            if (el.classList) {
+                el.classList.add(className);
+            } else {
+                el.className += ' ' + className;
+            }
+        }
+
+        function removeClassname(el, className) {
+            if (el.classList) {
+                el.classList.remove(className);
+            } else {
+                el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+            }
+        }
+
+        init();
+    })();
+</script>
+
+</body>
+</html> 
